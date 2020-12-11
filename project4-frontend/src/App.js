@@ -2,17 +2,18 @@ import './App.css';
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Route, Link, Switch, Router} from 'react-router-dom';
-import AllUsers from './AllUsers';
-import Profile from './User';
+import AllUsers from './Home/AllUsers';
+import Profile from './User/User';
 
 const backendUrl = 'http://localhost:3000/api'
+
 
 class App extends Component {
   constructor(){
     super()
 
     this.state = {
-      users:[]
+      users:[],
     }
   }
 
@@ -26,7 +27,18 @@ class App extends Component {
     this.setState({
       users: response.data.allUsers
     })
-  } 
+  }
+
+  addStock = async (event) => {
+    event.preventDefault()
+    
+    await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
+      ticker:event.target.ticker.value,
+    })
+    
+    this.getUsers()
+  }
+
   render (){
     return(
       <div className="App">
