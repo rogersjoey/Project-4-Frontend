@@ -27,11 +27,8 @@ class Login extends Component{
         return(
             <div>
                 <h1>
-                    LOG IN
+                    NEW USER
                 </h1>
-                <h5>
-                    Add a New Stock
-                </h5>
                 <form onSubmit={this.login}>
                     {/* <input type="hidden" name ="userId" value = {user.id}/> */}
                     Username<input type="text" name="ticker"/>

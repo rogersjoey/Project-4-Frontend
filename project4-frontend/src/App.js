@@ -3,7 +3,11 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import {Route, Link, Switch, Router} from 'react-router-dom';
 import AllUsers from './Home/AllUsers';
-import Profile from './User/User';
+import ViewProfile from './ViewUser/ViewUser';
+import Login from './Login/Login';
+import Signup from './Login/NewUser';
+import MyProfile from './User/User';
+import MyStocks from './User/StockSelection';
 
 const backendUrl = 'http://localhost:3000/api'
 
@@ -44,6 +48,8 @@ class App extends Component {
       <div className="App">
       <nav>
         <Link to="/">Home Page</Link>
+        <Link to="/login">Log In</Link>
+        <Link to="/signup">Signup</Link>
       </nav>
       <main>
         <Switch>
@@ -55,12 +61,40 @@ class App extends Component {
               />}
           />
           <Route
+            exact
+            path="/login"
+            component={() => <Login
+              users = {this.state.users}
+              />}
+          />
+          <Route
+            exact
+            path="/signup"
+            component={() => <Signup
+              users = {this.state.users}
+              />}
+          />
+          <Route
             path ="/profile/:id"
-            component={(routerProps) => <Profile
+            component={(routerProps) => <ViewProfile
             {...routerProps}
               users = {this.state.users}
               // addStock = {this.addStock}
             />}
+          />
+          <Route
+            exact
+            path="/myProfile/:id"
+            component={() => <MyProfile 
+              users = {this.state.users}
+              />}
+          />
+          <Route
+            exact
+            path="/myStocks/:id"
+            component={() => <MyStocks 
+              users = {this.state.users}
+              />}
           />
         </Switch>
       </main>
