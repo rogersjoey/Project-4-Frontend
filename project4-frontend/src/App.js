@@ -63,7 +63,8 @@ class App extends Component {
           <Route
             exact
             path="/login"
-            component={() => <Login
+            component={(routerProps) => <Login
+              {...routerProps}
               users = {this.state.users}
               />}
           />
@@ -79,13 +80,13 @@ class App extends Component {
             component={(routerProps) => <ViewProfile
             {...routerProps}
               users = {this.state.users}
-              // addStock = {this.addStock}
-            />}
+              />}
           />
           <Route
             exact
-            path="/myProfile/:id"
-            component={() => <MyProfile 
+            path="/myprofile/:id"
+            component={(routerProps) => <MyProfile 
+              {...routerProps}
               users = {this.state.users}
               />}
           />

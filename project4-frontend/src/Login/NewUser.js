@@ -1,21 +1,36 @@
 import React,{Component} from 'react';
+import {withRouter} from 'react-router-dom';
 import axios from 'axios';
+
 
 const backendUrl = 'http://localhost:3000/api'
 // const stockDataUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=IBM&apikey=G9K3MRYMN03JODZJ'
 
-class Login extends Component{
+class Signup extends Component{
     constructor(){
         super()
         this.state = {
-          stocks: [],
-          data:[],
-          tickers:[]
+          users: []
         }
       }
 
     // componentDidMount = async() =>{
     // }
+
+    login = async (event,res) =>{
+        event.preventDefault()
+        const response = await axios.post('http://localhost:3000/api/auth/signup',{
+            name: event.target.name.value,
+            username: event.target.username.value,
+            password: event.target.password.value
+        })
+        if(response.statusText === 'OK'){
+            this.props.history.push(`/myprofile/${response.data.newUser.id}`)
+        }
+        // if(response.statusText === 'OK'){
+        //     window.location.href=`/myprofile/${response.data.foundUser.id}`;
+        // }
+    }
 
     
     render(){
@@ -27,12 +42,12 @@ class Login extends Component{
         return(
             <div>
                 <h1>
-                    NEW USER
+                    SIGN UP
                 </h1>
                 <form onSubmit={this.login}>
-                    {/* <input type="hidden" name ="userId" value = {user.id}/> */}
-                    Username<input type="text" name="ticker"/>
-                    Password<input type="int" name="amount"/>
+                    Name<input type="text" name="name"/>
+                    Username<input type="text" name="username"/>
+                    Password<input type="text" name="password"/>
                     <input type="submit" value='Log In'/>
                 </form>
             </div>
@@ -40,4 +55,4 @@ class Login extends Component{
     }
 }
 
-export default Login
+export default withRouter(Signup)
