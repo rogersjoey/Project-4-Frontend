@@ -1,4 +1,6 @@
 import React,{Component} from 'react';
+import {withRouter,Route, Switch, Link} from 'react-router-dom';
+import MyStocks from '../User/StockSelection';
 import axios from 'axios';
 
 const backendUrl = 'http://localhost:3000/api'
@@ -21,24 +23,34 @@ class MyProfile extends Component{
             user: response.data.user,
           })
         console.log(this.state.user)
+        this.getStocks()
     }
 
     getStocks = async(event) =>{
-        event.preventDefault()
-        this.props.history.push(`/myStocks/${this.state.user.id}`)
+        const response = await axios(`${backendUrl}/userstock/profile/${this.props.match.params.id}`)
+        for(let i=0; i<response.data.stocks.length; i++){
+            if(this.state.tickers.includes(response.data.stocks[i].ticker) !== true){
+                    this.state.stocks.push(response.data.stocks[i])
+                    this.state.tickers.push(response.data.stocks[i].ticker)
+                }
+        }
+        this.setState({
+          stocks: this.state.stocks,
+        })
     }
+
+    // stocksPage = async() => {
+    //     this.props.history.push(`/myStocks/${this.state.user.id}`)
+    // }
 
 
 
     render(){
         const userStocks = this.state.stocks.map(stock =>{
             return(
-                <li key={stock.id}>Ticker:{stock.ticker} Current Price:{stock.currentValue} Bought At:{stock.initialValue} Amount Purchased: {stock.amountInvested} Growth: {stock.growth}
-                    <button key={stock.id} id={stock.id} onClick={this.deleteUserStock}>Delete</button>
-                </li>
+                <li key={stock.id}>Ticker:{stock.ticker} Current Price:{stock.currentValue} Bought At:{stock.initialValue} Amount Purchased: {stock.amountInvested} Growth: {stock.growth}</li>
             )
         })
-
         return(
             <div>
                 <h1>
@@ -48,7 +60,9 @@ class MyProfile extends Component{
                 <h5>
                     Your Stocks
                 </h5>
-                <button onClick={this.getStocks}>Select Stocks</button>
+                <Link key={this.state.user.id} to={`/myStocks/${this.state.user.id}`}>
+                    <button>Select Stocks</button>
+                </Link>
                 <ul>
                     {userStocks}
                 </ul>
@@ -57,4 +71,4 @@ class MyProfile extends Component{
     }
 }
 
-export default MyProfile
+export default withRouter(MyProfile)

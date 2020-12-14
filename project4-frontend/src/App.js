@@ -93,7 +93,8 @@ class App extends Component {
           <Route
             exact
             path="/myStocks/:id"
-            component={() => <MyStocks 
+            component={(routerProps) => <MyStocks
+              {...routerProps} 
               users = {this.state.users}
               />}
           />

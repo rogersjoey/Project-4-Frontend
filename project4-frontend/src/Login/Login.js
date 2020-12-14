@@ -1,13 +1,8 @@
 import React,{Component} from 'react';
-import {withRouter} from 'react-router-dom';
+import {withRouter,Route} from 'react-router-dom';
 import axios from 'axios';
 
-
-
-// const history = useHistory();
-
 const backendUrl = 'http://localhost:3000/api'
-// const stockDataUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=IBM&apikey=G9K3MRYMN03JODZJ'
 
 class Login extends Component{
     constructor(){
@@ -19,9 +14,6 @@ class Login extends Component{
             tickers:[]
         }
       }
-
-    // componentDidMount = async() =>{
-    // }
 
     login = async (event) =>{
         event.preventDefault()
@@ -40,11 +32,6 @@ class Login extends Component{
 
     
     render(){
-        // const user = this.props.users.find(
-        //     users => {
-        //         return users.id == this.props.match.params.id
-        // })
-
         return(
             <div>
                 <h1>
