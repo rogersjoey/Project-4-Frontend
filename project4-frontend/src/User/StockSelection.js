@@ -16,43 +16,27 @@ class MyStocks extends Component{
       }
 
     componentDidMount = async(event) =>{
-    const response = await axios (`http://localhost:3000/api/users/profile/${this.props.match.params.id}`)
-    this.setState({
-        user: response.data.user,
-        })
+        this.getInfo()
     console.log(this.state.user)
-    this.getStocks()
     }
 
-    getStocks = async(event) =>{
-        const response = await axios(`${backendUrl}/userstock/profile/${this.props.match.params.id}`)
-        for(let i=0; i<response.data.stocks.length; i++){
-            if(this.state.tickers.includes(response.data.stocks[i].ticker) !== true){
-                    this.state.stocks.push(response.data.stocks[i])
-                    this.state.tickers.push(response.data.stocks[i].ticker)
-                }
-        }
+    getInfo = async(event) =>{
+        let response = await axios(`${backendUrl}/users/profile/${this.props.match.params.id}`)
         this.setState({
-          stocks: this.state.stocks,
+            user: response.data.user,
+            stocks: response.data.user.stocks
         })
     }
 
     addStock = async (event) => {
         event.preventDefault()
-        // if(this.state.stocks.includes(response.data.stocks[i].ticker) !== true){
-        //     //add stock to list
-        //     this.getStockData()
-        //     this.updateStocks()
-        // } else {
-        //     //update current value of stock
-        // }
         await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
             ticker:event.target.ticker.value,
             amountInvested:event.target.amount.value
         })
-        this.getSingleStockData(event.target.ticker.value)
-        this.getStocks()
+        this.getInfo()
     }
+    
     render(){
         const userStocks = this.state.stocks.map(stock =>{
             return(

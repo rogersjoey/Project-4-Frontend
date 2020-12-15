@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import axios from 'axios';
+import {Line} from 'react-chartjs-2';
 
 const backendUrl = 'http://localhost:3000/api'
 // const stockDataUrl = 'https://www.alphavantage.co/query?function=TIME_SERIES_MONTHLY&symbol=IBM&apikey=G9K3MRYMN03JODZJ'
@@ -9,27 +10,32 @@ class ViewProfile extends Component{
         super()
         this.state = {
           stocks: [],
-          data:[],
-          tickers:[]
+          user:[],
+          stockInfo:[],
+          stockData:[],
+          stockData2:[],
+          labels:[],
+          datasets: [
+            {
+                label: 'Stock Price',
+                fill: false,
+                lineTension: 0.5,
+                backgroundColor: 'red',
+                borderColor: 'red',
+                borderWidth: 4,
+                data: []
+            }]
         }
       }
 
     componentDidMount = async() =>{
-        this.getStocks()
-    }
-
-    getStocks = async(event) => {
-        const response = await axios(`${backendUrl}/userstock/profile/${this.props.match.params.id}`)
-        for(let i=0; i<response.data.stocks.length; i++){
-            if(this.state.tickers.includes(response.data.stocks[i].ticker) !== true){
-                    this.state.stocks.push(response.data.stocks[i])
-                    this.state.tickers.push(response.data.stocks[i].ticker)
-                }
-        }
+        let i = this.props.match.params.id
+        const response = await axios (`http://localhost:3000/api/users/profile/${i}`)
         this.setState({
-          stocks: this.state.stocks,
-        })
-      }
+            user: response.data.user,
+            stocks: response.data.user.stocks
+          })
+    }
 
     
     addStock = async (event) => {
@@ -61,27 +67,27 @@ class ViewProfile extends Component{
 
     getSingleStockData = async(event) => {
         event.preventDefault()
-            const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
-            // const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stocks[i].ticker}&apikey=G9K3MRYMN03JODZJ`)
-            this.state.data.push(response.data)
-        this.updateStocks()
+        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
+        // const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stocks[i].ticker}&apikey=G9K3MRYMN03JODZJ`)
+        this.state.stockInfo = response.data['Meta Data']
+        this.state.stockData = []
+        this.state.labels = []
+        this.state.datasets[0].data = []
+        for( var key in response.data['Time Series (Daily)']){
+            this.state.stockData.push(response.data['Time Series (Daily)'][key])
+            this.state.labels.push([key])
+        }
+        this.state.stockData.map((day,i) => {
+            this.state.datasets[0].data.push(parseFloat(day['4. close']))
+        })
+        this.state.labels = this.state.labels.reverse()
+        this.state.datasets[0].data = this.state.datasets[0].data.reverse()
+        this.setState({state:this.state})
     }
 
-    // updateStocks = async(event) =>{
-    //     event.preventDefault()
-    //     let stocks = this.state.stocks
-    //     for(let i = 0; i< stocks.length; i++){
-    //         if(this.state.data[0]['Meta Data']['2. Symbol'] === stocks[i].ticker){
-    //             await axios.put(`http://localhost:3000/api/stock/${stocks[i].id}`,{
-    //                 currentValue: this.state.data[i]['Time Series (Daily)']['2020-12-10']['4. close']
-    //             })
-    //         }
-    //     }
-    //     console.log(this.state.data[0]['Time Series (Daily)']['2020-12-10']['4. close'])
-    // }
 
-    updateStocks = async() =>{
-        // event.preventDefault()
+    updateStocks = async(event) =>{
+        event.preventDefault()
         for(let i = 0; i< this.state.data.length; i++){
             for(let j = 0; j< this.state.stocks.length; j++){
                 if(this.state.data[i]['Meta Data']['2. Symbol'] === this.state.stocks[j].ticker){
@@ -119,8 +125,9 @@ class ViewProfile extends Component{
 
         const userStocks = this.state.stocks.map(stock =>{
             return(
-                <li key={stock.id}>Ticker:{stock.ticker} Current Price:{stock.currentValue} Bought At:{stock.initialValue} Amount Purchased: {stock.amountInvested} Growth: {stock.growth}
-                    <button key={stock.id} id={stock.id} onClick={this.deleteUserStock}>Delete</button>
+                <li key={stock.id}>Ticker:
+                    <button onClick = {this.getSingleStockData}>{stock.ticker} </button>
+                    Current Price:{stock.currentValue} Bought At:{stock.initialValue} Amount Purchased: {stock.amountInvested} Growth: {stock.growth}
                 </li>
             )
         })
@@ -130,30 +137,24 @@ class ViewProfile extends Component{
                 <h1>
                     {/* {user.name} */}
                 </h1>
-                <h5>Edit User</h5>
-                {/* <form onSubmit={this.props.updateUser}>
-                    <input type="hidden" name ="userId" value = {userDetail.id}/>
-                    <input type="text" name="name" placeholder={userDetail.name}/>
-                    <input type="submit" value='Edit User'/>
-                </form> */}
                 <h5>
-                    Add a New Stock
-                </h5>
-                <button onClick={this.getStockData}>Alpha Vantage Stock Data</button>
-                <button onClick={this.updateStocks}>Update Stocks on Stocks</button>
-                {/* <button onClick={this.updateUserStock}>Update Stocks on UserStocks</button> */}
-                <form onSubmit={this.addStock}>
-                    {/* <input type="hidden" name ="userId" value = {user.id}/> */}
-                    Stock Ticker:<input type="text" name="ticker"/>
-                    Dollar Amount:<input type="int" name="amount"/>
-                    <input type="submit" value='Add Stock to Stocks'/>
-                </form>
-                <h5>
-                    Your Stocks
+                    Stocks
                 </h5>
                 <ul>
                     {userStocks}
                 </ul>
+                <div className='chart'>
+                    <Line
+                        data={this.state}
+                        options={{
+                            title:{
+                                display:true,
+                                text:this.state.stockInfo['2. Symbol'],
+                                fontSize:25
+                            },
+                        }}
+                    />
+                </div>
             </div>
         )
     }

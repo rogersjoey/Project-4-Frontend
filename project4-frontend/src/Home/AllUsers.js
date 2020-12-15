@@ -10,9 +10,7 @@ class AllUsers extends Component{
                     <Link to={`/profile/${users.id}`}>
                         {users.name}
                     </Link>
-                    {/* <button key={users.id} id={users.id} onClick={this.props.deleteUser}>
-                        Delete
-                    </button> */}
+                    Growth:{users.growth}
                 </li>
             )
         })
@@ -20,10 +18,6 @@ class AllUsers extends Component{
         return(
             <div>
                 <h1>All Users</h1>
-                {/* <form onSubmit={this.props.addUser}>
-                    <input type='text' name='name'/>
-                    <input type='submit' value='Search User'/>
-                </form> */}
                 {allUsers}
             </div>
         )
