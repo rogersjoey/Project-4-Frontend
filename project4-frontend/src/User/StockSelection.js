@@ -8,16 +8,16 @@ class MyStocks extends Component{
     constructor(){
         super()
         this.state = {
-          stocks: [],
-          data:[],
-          tickers:[],
-          user:[]
+            stockData:[],
+            stocks: [],
+            data:[],
+            tickers:[],
+            user:[]
         }
       }
 
     componentDidMount = async(event) =>{
         this.getInfo()
-    console.log(this.state.user)
     }
 
     getInfo = async(event) =>{
@@ -30,18 +30,57 @@ class MyStocks extends Component{
 
     addStock = async (event) => {
         event.preventDefault()
+        let response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
+        console.log(1)
+        for( var key in response.data['Time Series (Daily)']){
+            this.state.stockData.push(response.data['Time Series (Daily)'][key])
+        }
+        console.log(this.state.stockData[99]['4. close'])
+        await axios.post(`http://localhost:3000/api/stock/`,{
+            ticker:response.data['Meta Data']['2. Symbol'],
+            currentValue:this.state.stockData[99]['4. close'],
+        })
+        console.log(2)
         await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
-            ticker:event.target.ticker.value,
+            ticker:response.data['Meta Data']['2. Symbol'],
+            currentValue:this.state.stockData[99]['4. close'],
             amountInvested:event.target.amount.value
         })
+        console.log(3)
+        this.getStockPrice()
         this.getInfo()
     }
-    
+
+    getStockPrice = async() =>{
+        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
+    }
+
+    money = () => {
+
+    }
+
+
+
+
+    deleteUserStock = async (event) => {
+        event.preventDefault()
+        let id = parseFloat(event.target.id)
+        console.log(this.state.user.id)
+        console.log(event.target.id)
+        await axios.delete(`http://localhost:3000/api/userstock/profile/${this.state.user.id}`,{
+            stockId:7
+        })
+        console.log(id)
+        this.setState({
+            state:this.state
+        })
+    }
+
     render(){
         const userStocks = this.state.stocks.map(stock =>{
             return(
-                <li key={stock.id}>Ticker:{stock.ticker} Amount Purchased: {stock.amountInvested}
-                    <button key={stock.id} id={stock.id} onClick={this.deleteUserStock}>Delete</button>
+                <li key={stock.id}>Ticker:{stock.ticker} Amount Purchased: {stock.userStocks.amountInvested}
+                    <button name={stock.id} id={`${stock.userStocks.stockId}`} onClick={this.deleteUserStock}>Delete</button>
                 </li>
             )
         })
@@ -57,6 +96,9 @@ class MyStocks extends Component{
                     Dollar Amount:<input type="int" name="amount"/>
                     <input type="submit" value='Add Stock to Stocks'/>
                 </form>
+                <h5>
+                    Budget:
+                </h5>
                 <h5>
                     Your Stocks
                 </h5>

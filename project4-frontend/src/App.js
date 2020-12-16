@@ -26,22 +26,13 @@ class App extends Component {
   }
 
   getUsers = async() => {
-    const response = await axios(`${backendUrl}/users`)
+    const response = await axios(`${backendUrl}/users/`)
 
     this.setState({
       users: response.data.allUsers
     })
   }
 
-  addStock = async (event) => {
-    event.preventDefault()
-    
-    await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
-      ticker:event.target.ticker.value,
-    })
-    
-    this.getUsers()
-  }
 
   render (){
     return(
