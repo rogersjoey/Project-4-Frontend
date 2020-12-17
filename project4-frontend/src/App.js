@@ -37,10 +37,13 @@ class App extends Component {
   render (){
     return(
       <div className="App">
-      <nav>
-        <Link to="/">Home Page</Link>
-        <Link to="/login">Log In</Link>
-        <Link to="/signup">Signup</Link>
+      <nav class='navbar'>
+        <button><h1><Link to="/">STONKS VS STINKS</Link></h1></button>
+        <span class ='loginnav'> 
+          <button><Link to="/login">Log In</Link></button>        
+          <button><Link to="/signup">Signup</Link></button>
+        </span>
+
       </nav>
       <main>
         <Switch>
@@ -91,6 +94,14 @@ class App extends Component {
           />
         </Switch>
       </main>
+      <div className = 'footer'>
+        <div>
+          <footer className="App-footer">
+            <div className='container'></div>
+              <h4> © 2020 SEI. All rights reserved.</h4>
+          </footer>
+        </div>
+      </div>
     </div>
   )};
 }

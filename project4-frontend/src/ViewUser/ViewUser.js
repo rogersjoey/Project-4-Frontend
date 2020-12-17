@@ -20,8 +20,8 @@ class ViewProfile extends Component{
                 label: 'Stock Price',
                 fill: false,
                 lineTension: 0.5,
-                backgroundColor: 'red',
-                borderColor: 'red',
+                backgroundColor: 'green',
+                borderColor: 'green',
                 borderWidth: 4,
                 data: []
             }]
@@ -67,14 +67,18 @@ class ViewProfile extends Component{
 
     getSingleStockData = async(event) => {
         event.preventDefault()
-        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
-        // const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stocks[i].ticker}&apikey=G9K3MRYMN03JODZJ`)
+        let numb = document.getElementsByClassName('custom-select')[0].value
+        let date = document.getElementsByClassName('custom-select')[0][numb].id
+        let series = document.getElementsByClassName('custom-select')[0][numb].className
+        // console.log(document.getElementsByClassName('custom-select'))
+        // console.log(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${event.target.parentElement.id}&apikey=G9K3MRYMN03JODZJ`)
+        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${event.target.parentElement.id}&apikey=G9K3MRYMN03JODZJ`)
         this.state.stockInfo = response.data['Meta Data']
         this.state.stockData = []
         this.state.labels = []
         this.state.datasets[0].data = []
-        for( var key in response.data['Time Series (Daily)']){
-            this.state.stockData.push(response.data['Time Series (Daily)'][key])
+        for( var key in response.data[series]){
+            this.state.stockData.push(response.data[series][key])
             this.state.labels.push([key])
         }
         this.state.stockData.map((day,i) => {
@@ -125,31 +129,36 @@ class ViewProfile extends Component{
 
         const userStocks = this.state.stocks.map(stock =>{
             return(
-                <li key={stock.id}>Ticker:
-                    <button onClick = {this.getSingleStockData}>{stock.ticker} </button>
-                    Current Price:{stock.currentValue} Bought At:{stock.initialValue} Amount Purchased: {stock.amountInvested} Growth: {stock.growth}
-                </li>
+                <button id={stock.ticker} className='stock' onClick = {this.getSingleStockData}>
+                    <li className="stockinfo" key={stock.id}>Ticker:
+                        {stock.ticker} 
+                        Current Price:{stock.currentValue}
+                    </li>
+                </button>
             )
         })
 
         return(
             <div>
-                <h1>
-                    {/* {user.name} */}
+                <h1 className='header'>
+                    {this.state.user.name}s Top Stock Picks
                 </h1>
-                <h5>
-                    Stocks
-                </h5>
-                <ul>
+                <ul className = 'stocklist'>
                     {userStocks}
                 </ul>
+                <div >
+                    <select class="custom-select">
+                        <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
+                        <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
+                    </select>
+                </div>
                 <div className='chart'>
                     <Line
                         data={this.state}
                         options={{
                             title:{
                                 display:true,
-                                text:this.state.stockInfo['2. Symbol'],
+                                // text:this.state.stockInfo['2. Symbol'],
                                 fontSize:25
                             },
                         }}

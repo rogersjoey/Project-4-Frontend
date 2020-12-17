@@ -1,0 +1,32 @@
+.All{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.Allusers{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.User{
+    background-color:white;
+    width: 300px;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin: 5px;
+    padding:3px;
+    /* text-decoration: none;
+    display: block;
+    align-items: center;
+    justify-content: center; */
+}
+
+.Link{
+    text-decoration: none;
+}
+
+li{
+    text-decoration: none;
+}

@@ -48,7 +48,7 @@ class Signup extends Component{
                     Name<input type="text" name="name"/>
                     Username<input type="text" name="username"/>
                     Password<input type="text" name="password"/>
-                    <input type="submit" value='Log In'/>
+                    <input type="submit" value='Sign Up'/>
                 </form>
             </div>
         )

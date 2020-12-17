@@ -1,0 +1,54 @@
+.stockbox{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: auto;
+    margin: 5%;
+    width: 90%;
+    min-width: min-content;
+    max-height:250px;
+    background-color: white;
+}
+
+.box{
+    display: flex;
+    justify-content:space-evenly;
+    align-items: center;
+    border: 2px solid green;
+    border-radius: 10px;
+    padding: auto;
+    margin: 10px;
+    width: 95%;
+    min-width: min-content;
+    max-height:250px;
+    background-color: green;
+}
+
+.stock{
+    list-style-type: none;
+    display: inline;
+    margin: 10px;
+    color:white;
+}
+
+ul{
+
+}
+
+li{
+    display: inline;
+    margin: 10px;
+}
+
+.chart{
+    width: 90%;
+    display: block;
+    margin-left: auto;
+    margin-bottom: 40px;
+    margin-right: auto;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid green;
+}
