@@ -34,14 +34,15 @@ class MyProfile extends Component{
     componentDidMount = async(event) =>{
         const response = await axios (`http://localhost:3000/api/users/profile/${this.props.match.params.id}`)
         this.growth()
+        console.log(this.state.vestedMoney)
         this.setState({
             user: response.data.user,
-            userstocks: response.data.user.stocks
+            userstocks: response.data.user.stocks,
           })
     }
 
     updateStocks = async(event) => {
-        this.state.name = event.target.className
+        this.state.name = event.target.value
         let numb = document.getElementsByClassName('custom-select')[0].value
         let date = document.getElementsByClassName('custom-select')[0][numb].id
         let series = document.getElementsByClassName('custom-select')[0][numb].className
@@ -90,15 +91,20 @@ class MyProfile extends Component{
             })
         i++}
         console.log(totalSpent)
+        this.state.vestedMoney = ''
         this.state.vestedMoney = totalSpent
         let totalValue = totalGrowth+(this.state.startMoney-totalSpent)
         await axios.put(`${backendUrl}/users/${this.props.match.params.id}`,{growth: totalGrowth, monthlyGrowth:totalValue})
-        this.setState({state:this.state})
+        // this.setState({
+        //     vestedMoney:this.totalSpent
+        // })
     }
 
 
     render(){
+        this.state.vestedMoney = 0
         const userStocks = this.state.userstocks.map(stock =>{
+            this.state.vestedMoney = parseInt(this.state.vestedMoney)+parseInt(stock.userStocks.amountInvested)
             return(
                 <div className='box'>
                     <ul className='stock'>
@@ -108,43 +114,48 @@ class MyProfile extends Component{
                         <li className ='Amount'>Amount Purchased: {stock.userStocks.amountInvested}</li>
                         <li className ='Value'>Current Value: {stock.userStocks.growth}</li>
                     </ul>
-                    <button id={stock.userStocks.stockId} class={stock.ticker} onClick={this.updateStocks}>View Stock</button>
+                    <button id={stock.userStocks.stockId} class='mystock' value={stock.ticker} onClick={this.updateStocks}>View Stock</button>
                 </div>
             )
         })
         return(
             <div>
-                <h1>
-                    {this.state.user.name}
-                </h1>
-                <Link key={this.state.user.id} to={`/myStocks/${this.state.user.id}`}>
-                    <button>Select Stocks</button>
-                </Link>
-                <h1>Your Stocks<br/></h1> 
-                <div className='stockbox'>
-                    <h1>Balance: {this.state.startMoney-this.state.vestedMoney}</h1>
-                    <ul>
-                        {userStocks}
-                    </ul>
+                <div id='top1'>
+                    <div id='tipytop'>
+                        <Link key={this.state.user.id} to={`/myStocks/${this.state.user.id}`} id='selectLink'>
+                            <button id='soDone'>Select Stocks</button>
+                        </Link>
+                        <h1 id="username">
+                            {this.state.user.name}
+                        </h1>
+                    </div>
                 </div>
-                <h1>Stock Data<br/></h1> 
-                <div >
-                    <select class="custom-select">
-                        <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
-                        <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
-                    </select>
-                </div>
-                <div className='chart'>
-                    <Line
-                        data={this.state}
-                        options={{
-                            title:{
-                                display:true,
-                                text:this.state.name,
-                                fontSize:100
-                            },
-                        }}
-                    />
+                    <div className='stockbox'>
+                        <h1>Cash Balance: {this.state.startMoney-this.state.vestedMoney}</h1>
+                        <ul>
+                            {userStocks}
+                        </ul>
+                    </div>
+                <div id='bottom'>
+                    <div id='tipyboty'>
+                    <h1>Stock Data<br/></h1> 
+                        <select class="custom-select">
+                            <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
+                            <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
+                        </select>                        
+                    </div>
+                    <div className='chart'>
+                        <Line
+                            data={this.state}
+                            options={{
+                                title:{
+                                    display:true,
+                                    text:this.state.name,
+                                    fontSize:100
+                                },
+                            }}
+                        />
+                    </div>
                 </div>
             </div>
         )

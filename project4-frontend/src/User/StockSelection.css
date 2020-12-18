@@ -1,0 +1,80 @@
+.All{
+    display: block;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#top{
+    width:70%
+}
+
+#selectLink{
+    
+}
+
+.Stockform{
+    display:inline-block;
+    border: 2px solid black;
+    border-radius: 5px;
+    display:block;
+    padding:7px;
+    background-color: ivory;
+    margin-left: 30%;
+    margin-right: 30%;
+}
+
+
+#topTitle{
+    margin-left: 30%;
+    margin-right: 0%;
+    display: inline;
+}
+
+.stockSelection{
+    width: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    display:block;
+    background-color: ivory;
+    margin-top: 25px;
+    margin-bottom: 35px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.stockSelection ul{
+    margin-left: 15%;
+    width: 70%;
+    text-align: center;
+}
+.stockSelection li{
+    font-size: medium;
+    border: 2px solid black;
+    border-radius: 5px;
+    display:block;
+    background-color:#D0EECE;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+.delete{
+    margin-left: 25px;
+}
+
+.ticker{
+    font-size: x-large;
+    font-weight: bold;
+}
+
+#stockEnter{
+    margin-left: 10px;
+}
+
+#userProf{
+    height: 50px;
+    width: 200px;
+    background-color: grey;
+    color: white;
+    font-size: large;
+    font-weight: bold;
+}

@@ -53,14 +53,19 @@ Link{
     color:white
 }
 
-li a:hover{
-    text-decoration: none;
-}
-
 ul{
     display: block;
 }
-
+.User ul{
+    text-align:justify;
+    /* text-align: left; */
+    margin-left: 45px;
+    /* text-align:center; */
+    word-spacing:3em; 
+}
+.User a .gowth{
+    margin-left: 30%;
+}
 
 li{
     font-size: 40px;
@@ -80,8 +85,6 @@ li{
     width: 30px;
 }
 
-.user{
-}
 
 .growth{
     float:right;

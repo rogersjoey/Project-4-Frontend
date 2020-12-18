@@ -1,14 +1,14 @@
 .form{
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    width: 50%;
-    padding: 10px;
-    border: 2px solid black;
-    border-radius: 5px;
-    background-color: lightgray;
-  }
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+  padding: 10px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: lightgray;
+}
 
-  .submit{
-    background-color: #4CAF50;
-  }
+.submit{
+  background-color: #4CAF50;
+}

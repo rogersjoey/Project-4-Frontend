@@ -153,7 +153,7 @@ class ViewProfile extends Component{
                         <h1 className='sectTitle'>Selected Stock Price</h1>
                         <div className='selection'>
                                 <h3>Time Series: </h3>
-                                <select class="custom-select">
+                                <select class="custom-select" id='custom-select'>
                                     <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
                                     <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
                                 </select>

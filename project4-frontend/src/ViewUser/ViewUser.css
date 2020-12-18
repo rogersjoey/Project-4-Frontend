@@ -14,7 +14,13 @@
     padding: auto;
     min-width: min-content;
     background-color: white;
-    margin-left: 20px;
+    margin-left: 5%;
+    margin-right: 5%;
+}
+
+.stocklist button{
+    margin-left: 0;
+    margin-right: 40px;
 }
 
 
@@ -53,6 +59,7 @@ li{
 h5{
     margin-left: 10%;
 }
-.custom-selection{
-    width: 40%;
+.selection .custom-select{
+    width: 100%;
+    margin-left: 0;
 }

@@ -1,13 +1,15 @@
-.App{
-    /* text-align: center; */
-    /* background-color:white; */
-    /* background-image: url('./BULL.png'); */
-    /* background-size: cover;  */
-  }
+/* .logback{
+    background-image: url('../BULL.png');
+    background-size: cover;
+  } */
   
 .form{
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%
+}
+
+.submit{
+  background-color: #4CAF50;
 }

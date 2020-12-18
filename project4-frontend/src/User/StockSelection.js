@@ -1,3 +1,4 @@
+import './StockSelection.css'
 import React,{Component} from 'react';
 import {withRouter, Link} from 'react-router-dom';
 import axios from 'axios';
@@ -22,13 +23,14 @@ class MyStocks extends Component{
 
     componentDidMount = async(event) =>{
         this.getInfo()
+        this.growth()
     }
 
     getInfo = async(event) =>{
         let response = await axios(`${backendUrl}/users/profile/${this.props.match.params.id}`)
         this.setState({
             user: response.data.user,
-            stocks: response.data.user.stocks
+            stocks: response.data.user.stocks,
         })
     }
 
@@ -57,31 +59,30 @@ class MyStocks extends Component{
         this.getInfo()
     }
 
-    // growth = async() =>{
-    //     let totalGrowth = 0
-    //     let totalSpent = 0
-    //     let i = 0
-    //     while(i<this.state.stocks.length){
-    //         let stock = this.state.stocks[i].userStocks
-    //         console.log(stock)
-    //         let growth = ((stock.finalValue)/(stock.initialValue))*(stock.amountInvested)
-    //         let spent = (stock.amountInvested)
-    //         if(isNaN(growth) == true || growth == 'Infinity'){
-    //             growth = 0
-    //         }
-    //         totalSpent = parseInt(totalSpent) + parseInt(spent)
-    //         totalGrowth = parseInt(totalGrowth) + parseInt(growth)
-    //         await axios.put(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
-    //             stockId: stock.stockId,
-    //             growth: growth
-    //         })
-    //     i++}
-    //     console.log(totalSpent)
-    //     this.state.vestedMoney = totalSpent
-    //     let totalValue = totalGrowth+(this.state.startMoney-totalSpent)
-    //     await axios.put(`${backendUrl}/users/${this.props.match.params.id}`,{growth: totalGrowth, monthlyGrowth:totalValue})
-    //     this.setState({state:this.state})
-    // }
+    growth = async() =>{
+        let totalGrowth = 0
+        let totalSpent = 0
+        let i = 0
+        while(i<this.state.stocks.length){
+            let stock = this.state.stocks[i].userStocks
+            console.log(stock)
+            let growth = ((stock.finalValue)/(stock.initialValue))*(stock.amountInvested)
+            let spent = (stock.amountInvested)
+            if(isNaN(growth) == true || growth == 'Infinity'){
+                growth = 0
+            }
+            totalSpent = parseInt(totalSpent) + parseInt(spent)
+            totalGrowth = parseInt(totalGrowth) + parseInt(growth)
+            await axios.put(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
+                stockId: stock.stockId,
+                growth: growth
+            })
+        i++}
+        console.log(totalSpent)
+        let totalValue = totalGrowth+(this.state.startMoney-totalSpent)
+        await axios.put(`${backendUrl}/users/${this.props.match.params.id}`,{growth: totalGrowth, monthlyGrowth:totalValue})
+        this.setState({state:this.state})
+    }
 
 
 
@@ -101,35 +102,44 @@ class MyStocks extends Component{
     }
 
     render(){
+        this.state.vestedMoney = 0
         const userStocks = this.state.stocks.map(stock =>{
+            this.state.vestedMoney += parseInt(stock.userStocks.amountInvested)
+            console.log(this.state.vestedMoney)
             return(
-                <li key={stock.id}>Ticker:{stock.ticker} Amount Purchased: {stock.userStocks.amountInvested}
-                    <button name={stock.id} id={stock.userStocks.stockId} onClick={this.deleteUserStock}>Delete</button>
+                <li key={stock.id}><div className='ticker'>{stock.ticker}</div> Amount Purchased: {stock.userStocks.amountInvested}
+                    <button class='delete' name={stock.id} id={stock.userStocks.stockId} onClick={this.deleteUserStock}>Delete</button>
                 </li>
             )
         })
-
+        this.state.startMoney = 100000
         return(
-            <div>
-                <h1>
-                    User Stock Selection
-                </h1>
-                <form onSubmit={this.addStock}>
-                    {/* <input type="hidden" name ="userId" value = {user.id}/> */}
-                    Stock Ticker:<input type="text" name="ticker"/>
-                    Dollar Amount:<input type="int" name="amount"/>
-                    <input type="submit" value='Add Stock to Stocks'/>
-                </form>
-                <h5>Balance: {this.state.startMoney-this.state.vestedMoney}</h5>
-                <h5>
-                    Your Stocks
-                </h5>
-                <ul>
-                    {userStocks}
-                </ul>
-                <Link key={this.state.user.id} to={`/myProfile/${this.state.user.id}`}>
-                    <button>User Profile</button>
-                </Link>
+            <div className = 'All'>
+                <div id='top'>
+                    <Link key={this.state.user.id} to={`/myProfile/${this.state.user.id}`}>
+                        <button id="userProf">Return To Profile</button>
+                    </Link>
+                    <h1 id='topTitle'>
+                        User Stock Selection
+                    </h1>
+                </div>
+                <div className='Stockform'>
+                    <form onSubmit={this.addStock}>
+                        {/* <input type="hidden" name ="userId" value = {user.id}/> */}
+                        Stock Ticker:<input type="text" name="ticker"/>
+                        Dollar Amount:<input type="int" name="amount"/>
+                        <input id='stockEnter' type="submit" value='Add Stock to Stocks'/>
+                    </form>
+                    <h2>Balance: {this.state.startMoney-this.state.vestedMoney}</h2>
+                </div>
+                <div className='stockSelection'>
+                    <h1>
+                        Your Stocks
+                    </h1>
+                    <ul>
+                        {userStocks}
+                    </ul>
+                </div>
             </div>
         )
     }

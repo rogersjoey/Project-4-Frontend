@@ -50,7 +50,7 @@ class Login extends Component{
                         <ReactBootStrap.Form.Label>Password</ReactBootStrap.Form.Label>
                         <ReactBootStrap.Form.Control type="text" name="password" placeholder="Password" />
                     </ReactBootStrap.Form.Group>
-                    <ReactBootStrap.Button variant="primary" type="submit">Submit</ReactBootStrap.Button>
+                    <ReactBootStrap.Button className = 'btn btn-success' variant="primary" type="submit">Submit</ReactBootStrap.Button>
                 </ReactBootStrap.Form>
                 {/* <form onSubmit={this.login}>
                     Username<input type="text" name="username"/>
