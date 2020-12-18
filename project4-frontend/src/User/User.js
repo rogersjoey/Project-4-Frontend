@@ -45,7 +45,7 @@ class MyProfile extends Component{
         let numb = document.getElementsByClassName('custom-select')[0].value
         let date = document.getElementsByClassName('custom-select')[0][numb].id
         let series = document.getElementsByClassName('custom-select')[0][numb].className
-        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${event.target.parentElement.id}&apikey=G9K3MRYMN03JODZJ`)
+        const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${this.state.name}&apikey=G9K3MRYMN03JODZJ`)
         console.log(response)
         this.state.stockInfo = response.data['Meta Data']
         this.state.stockData = []
@@ -55,11 +55,11 @@ class MyProfile extends Component{
             this.state.stockData.push(response.data[series][key])
             this.state.labels.push([key])
         }
-        this.state.labels = this.state.labels.reverse()
-        this.state.datasets[0].data = this.state.datasets[0].data.reverse()
         this.state.stockData.map((day) => {
             this.state.datasets[0].data.push(parseFloat(day['4. close']))
         })
+        this.state.labels = this.state.labels.reverse()
+        this.state.datasets[0].data = this.state.datasets[0].data.reverse()
         await axios.put(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
             stockId: event.target.id,
             finalValue:this.state.stockData[0]['4. close'],

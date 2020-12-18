@@ -1,3 +1,5 @@
+import './NewUser.css'
+import * as ReactBootStrap from "react-bootstrap";
 import React,{Component} from 'react';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
@@ -44,12 +46,31 @@ class Signup extends Component{
                 <h1>
                     SIGN UP
                 </h1>
-                <form onSubmit={this.login}>
+                <ReactBootStrap.Form className ='form'>
+                    <ReactBootStrap.Form.Group controlId="formBasicName">
+                        <ReactBootStrap.Form.Label>Name</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control type="name" placeholder="Enter Name" />
+                        <ReactBootStrap.Form.Text className="text-muted">
+                        </ReactBootStrap.Form.Text>
+                    </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Form.Group controlId="formBasicUsername">
+                        <ReactBootStrap.Form.Label>Username</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control type="username" placeholder="Enter username" />
+                        <ReactBootStrap.Form.Text className="text-muted">
+                        </ReactBootStrap.Form.Text>
+                    </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Form.Group controlId="formBasicPassword">
+                        <ReactBootStrap.Form.Label>Password</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control type="password" placeholder="Password" />
+                    </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Button className = 'btn btn-success' variant="primary" type="submit">Submit</ReactBootStrap.Button>
+                </ReactBootStrap.Form>
+                {/* <form onSubmit={this.login}>
                     Name<input type="text" name="name"/>
                     Username<input type="text" name="username"/>
                     Password<input type="text" name="password"/>
                     <input type="submit" value='Sign Up'/>
-                </form>
+                </form> */}
             </div>
         )
     }

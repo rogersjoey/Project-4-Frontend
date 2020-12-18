@@ -1,54 +1,58 @@
-.stockbox{
-    display: flex;
-    justify-content:space-evenly;
+.viewUser{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.stockPicks{
     align-items: center;
+    width: 30%;
+}
+
+.stocklist{
     border: 2px solid green;
     border-radius: 10px;
     padding: auto;
-    margin: 5%;
-    width: 90%;
     min-width: min-content;
-    max-height:250px;
     background-color: white;
+    margin-left: 20px;
 }
 
-.box{
-    display: flex;
-    justify-content:space-evenly;
-    align-items: center;
-    border: 2px solid green;
-    border-radius: 10px;
-    padding: auto;
-    margin: 10px;
-    width: 95%;
-    min-width: min-content;
-    max-height:250px;
-    background-color: green;
-}
-
-.stock{
-    list-style-type: none;
-    display: inline;
-    margin: 10px;
-    color:white;
-}
-
-ul{
-
-}
 
 li{
-    display: inline;
     margin: 10px;
 }
 
-.chart{
-    width: 90%;
-    display: block;
-    margin-left: auto;
-    margin-bottom: 40px;
-    margin-right: auto;
+.viewChart1{
+    width: 60%;
+    margin-left: 5%;
+}
+
+#chart{
     background-color: white;
     border-radius: 10px;
     border: 2px solid green;
+}
+
+.aboveChart{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.sectTitle{
+    width: 50%;
+    margin-left: 25%
+}
+
+.selection{
+    display:flex;
+    flex-wrap:wrap;
+    padding: auto;
+    margin-bottom: 20px;
+    width:15%
+}
+h5{
+    margin-left: 10%;
+}
+.custom-selection{
+    width: 40%;
 }

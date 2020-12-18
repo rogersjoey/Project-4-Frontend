@@ -16,6 +16,7 @@ class MyStocks extends Component{
             user:[],
             startMoney: 100000,
             vestedMoney: 0,
+            id: ''
         }
       }
 
@@ -87,11 +88,11 @@ class MyStocks extends Component{
 
     deleteUserStock = async (event) => {
         event.preventDefault()
-        let id = parseFloat(event.target.id.value)
+        let id = parseFloat(event.target.id)
         console.log(this.state.user.id)
         console.log(event.target.id)
-        await axios.delete(`http://localhost:3000/api/userstock/profile/${this.state.user.id}`,{
-            stockId: id
+        await axios.delete(`${backendUrl}/userstock/profile/${this.state.user.id}`,{
+            "stockId": 3
         })
         // console.log(id)
         this.setState({

@@ -1,3 +1,4 @@
+import './ViewUser.css'
 import React,{Component} from 'react';
 import axios from 'axios';
 import {Line} from 'react-chartjs-2';
@@ -55,22 +56,21 @@ class ViewProfile extends Component{
         this.getStocks()
     }
 
-    getStockData = async(event) => {
-        event.preventDefault()
-            for(let i=0; i<this.state.stocks.length; i++){
-                const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
-                // const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stocks[i].ticker}&apikey=G9K3MRYMN03JODZJ`)
-                this.state.data.push(response.data)
-            }
-        this.updateStocks()
-    }
+    // getStockData = async(event) => {
+    //     event.preventDefault()
+    //         for(let i=0; i<this.state.stocks.length; i++){
+    //             const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=IBM&apikey=demo`)
+    //             // const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${stocks[i].ticker}&apikey=G9K3MRYMN03JODZJ`)
+    //             this.state.data.push(response.data)
+    //         }
+    //     this.updateStocks()
+    // }
 
     getSingleStockData = async(event) => {
         event.preventDefault()
         let numb = document.getElementsByClassName('custom-select')[0].value
         let date = document.getElementsByClassName('custom-select')[0][numb].id
         let series = document.getElementsByClassName('custom-select')[0][numb].className
-        // console.log(document.getElementsByClassName('custom-select'))
         // console.log(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${event.target.parentElement.id}&apikey=G9K3MRYMN03JODZJ`)
         const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_${date}&symbol=${event.target.parentElement.id}&apikey=G9K3MRYMN03JODZJ`)
         this.state.stockInfo = response.data['Meta Data']
@@ -81,7 +81,7 @@ class ViewProfile extends Component{
             this.state.stockData.push(response.data[series][key])
             this.state.labels.push([key])
         }
-        this.state.stockData.map((day,i) => {
+        this.state.stockData.map((day) => {
             this.state.datasets[0].data.push(parseFloat(day['4. close']))
         })
         this.state.labels = this.state.labels.reverse()
@@ -139,30 +139,40 @@ class ViewProfile extends Component{
         })
 
         return(
-            <div>
-                <h1 className='header'>
-                    {this.state.user.name}s Top Stock Picks
-                </h1>
-                <ul className = 'stocklist'>
-                    {userStocks}
-                </ul>
-                <div >
-                    <select class="custom-select">
-                        <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
-                        <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
-                    </select>
+            <div className='viewUser'>
+                <div className = 'stockPicks'>
+                    <h1 className='header'>
+                        {this.state.user.name}s Top Stock Picks
+                    </h1>
+                    <ul className = 'stocklist'>
+                        {userStocks}
+                    </ul>
                 </div>
-                <div className='chart'>
-                    <Line
-                        data={this.state}
-                        options={{
-                            title:{
-                                display:true,
-                                // text:this.state.stockInfo['2. Symbol'],
-                                fontSize:25
-                            },
-                        }}
-                    />
+                <div className='viewChart1'>
+                    <div className='aboveChart'>
+                        <h1 className='sectTitle'>Selected Stock Price</h1>
+                        <div className='selection'>
+                                <h3>Time Series: </h3>
+                                <select class="custom-select">
+                                    <option value='0' id="DAILY" className ='Time Series (Daily)'>Short Term</option>
+                                    <option value='1' id="MONTHLY_ADJUSTED" className ='Monthly Adjusted Time Series'>Long Term</option>
+                                </select>
+                        </div>
+                    </div>
+                    <div className='viewChart2'>
+                        <div id='chart'>
+                            <Line
+                                data={this.state}
+                                options={{
+                                    title:{
+                                        display:true,
+                                        // text:this.state.stockInfo['2. Symbol'],
+                                        fontSize:25
+                                    },
+                                }}
+                            />
+                        </div>
+                    </div>
                 </div>
             </div>
         )

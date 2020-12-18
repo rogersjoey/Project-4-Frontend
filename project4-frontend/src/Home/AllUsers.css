@@ -1,32 +1,93 @@
+.home{
+    display: grid;
+    grid-template-columns: auto auto auto;
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+.STONKS{
+    width: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+    display:block;
+}
+
 .All{
     display: block;
     margin-left: auto;
     margin-right: auto;
 }
 
+.STINKS{
+    width: auto;
+    border: 2px solid black;
+    border-radius: 5px;
+}
+
+.stocklist{
+    display:block;
+    vertical-align: left;
+}
+
 .Allusers{
-    display: block;
+    display: table;
     margin-left: auto;
     margin-right: auto;
+    min-width: 700px;
 }
 
 .User{
     background-color:white;
-    width: 300px;
+    width: auto;
     border: 2px solid black;
     border-radius: 5px;
     margin: 5px;
     padding:3px;
-    /* text-decoration: none;
+    text-decoration: none;
     display: block;
-    align-items: center;
-    justify-content: center; */
+    text-decoration: none !important
 }
 
-.Link{
+Link{
+    text-decoration: none !important;
+    color:white
+}
+
+li a:hover{
     text-decoration: none;
 }
+
+ul{
+    display: block;
+}
+
 
 li{
-    text-decoration: none;
+    font-size: 40px;
+    display:inline-block;
+    color:#343a40;
+    vertical-align: left;
+}
+
+.stonk{
+    color: black;
+    display:block;
+}
+
+.rank{
+    margin-left: 0;
+    margin-right:100px;
+    width: 30px;
+}
+
+.user{
+}
+
+.growth{
+    float:right;
+}
+#Head{
+    color:Black;
+    font-weight: bold;
+    margin-right: 10%;
 }

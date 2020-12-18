@@ -1,3 +1,5 @@
+import './Login.css';
+import * as ReactBootStrap from "react-bootstrap";
 import React,{Component} from 'react';
 import {withRouter,Route} from 'react-router-dom';
 import axios from 'axios';
@@ -33,15 +35,28 @@ class Login extends Component{
     
     render(){
         return(
-            <div>
+            <div className='login'>
                 <h1>
                     LOG IN
                 </h1>
-                <form onSubmit={this.login}>
+                <ReactBootStrap.Form className='form' onSubmit={this.login}>
+                    <ReactBootStrap.Form.Group controlId="formBasicEmail">
+                        <ReactBootStrap.Form.Label>Username</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control type="username" name="username" placeholder="Enter username" />
+                        <ReactBootStrap.Form.Text className="text-muted">
+                        </ReactBootStrap.Form.Text>
+                    </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Form.Group controlId="formBasicPassword">
+                        <ReactBootStrap.Form.Label>Password</ReactBootStrap.Form.Label>
+                        <ReactBootStrap.Form.Control type="text" name="password" placeholder="Password" />
+                    </ReactBootStrap.Form.Group>
+                    <ReactBootStrap.Button variant="primary" type="submit">Submit</ReactBootStrap.Button>
+                </ReactBootStrap.Form>
+                {/* <form onSubmit={this.login}>
                     Username<input type="text" name="username"/>
                     Password<input type="text" name="password"/>
                     <input type="submit" value='Log In'/>
-                </form>
+                </form> */}
             </div>
         )
     }

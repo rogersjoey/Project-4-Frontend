@@ -1,4 +1,5 @@
 import './App.css';
+import * as ReactBootStrap from "react-bootstrap";
 import React, {Component} from 'react';
 import axios from 'axios';
 import {Route, Link, Switch, Router} from 'react-router-dom';
@@ -37,14 +38,24 @@ class App extends Component {
   render (){
     return(
       <div className="App">
-      <nav class='navbar'>
-        <button><h1><Link to="/">STONKS VS STINKS</Link></h1></button>
-        <span class ='loginnav'> 
-          <button><Link to="/login">Log In</Link></button>        
-          <button><Link to="/signup">Signup</Link></button>
-        </span>
+        <header>
+        <ReactBootStrap.Navbar bg="dark" variant="dark" class="p-3 mb-2 bg-light text-dark">
+          <ReactBootStrap.Nav className="navbar fixed-top navbar-light">
+            <ReactBootStrap.Nav.Link><Link class="p-3 mb-2 bg-light text-dark" to="/">STONKS VS STINKS</Link></ReactBootStrap.Nav.Link>
+            <ReactBootStrap.Nav.Link><Link class="p-3 mb-2 bg-light text-dark" to="/login">Log In</Link></ReactBootStrap.Nav.Link>
+            <ReactBootStrap.Nav.Link><Link class="p-3 mb-2 bg-light text-dark" to="/signup">Signup</Link></ReactBootStrap.Nav.Link>
+          </ReactBootStrap.Nav>
+        </ReactBootStrap.Navbar>
+          {/* <img class='Logo' src='src/BULL.png' alt='BULL'></img> */}
+          {/* <nav class='navbar'>
+            <ul>
+              <li><button><h1><Link to="/">STONKS VS STINKS</Link></h1></button></li>
+              <li><button><Link to="/login">Log In</Link></button></li>
+              <li><button><Link to="/signup">Signup</Link></button></li>
+            </ul>
+          </nav> */}
+        </header>
 
-      </nav>
       <main>
         <Switch>
           <Route
@@ -99,6 +110,7 @@ class App extends Component {
           <footer className="App-footer">
             <div className='container'></div>
               <h4> © 2020 SEI. All rights reserved.</h4>
+              <h10>Stocks do not allways go TOOOOO THE MOOOOOOOOON. We are not responsible for any Stinks that occur.</h10>
           </footer>
         </div>
       </div>

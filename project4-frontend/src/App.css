@@ -1,28 +1,29 @@
 .App{
-  text-align: center;
   background-color:#D0EECE;
+  background-size: cover; 
+}
+h1{
+  text-align: center;
 }
 
-.navbar{
-  background-color: #5BC453;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding:10px;
-}
-.loginnav{
-  text-align: right;
-}
+
 
 main{
   justify-content: center;
+  min-height: 800px;
 }
 
 footer{
   padding: 10px;
   color: white;
-  background-color: #5BC453;
+  background-color: #343a40!important;
+  text-align: center;
+}
+
+.loginnav{
+  float: right;
+}
+
+.loginnav button{
+  float: right;
 }
