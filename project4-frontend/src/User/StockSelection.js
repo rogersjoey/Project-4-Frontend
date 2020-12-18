@@ -93,7 +93,7 @@ class MyStocks extends Component{
         console.log(this.state.user.id)
         console.log(event.target.id)
         await axios.delete(`${backendUrl}/userstock/profile/${this.state.user.id}`,{
-            "stockId": 3
+            stockId: event.target.id
         })
         // console.log(id)
         this.setState({
@@ -105,7 +105,6 @@ class MyStocks extends Component{
         this.state.vestedMoney = 0
         const userStocks = this.state.stocks.map(stock =>{
             this.state.vestedMoney += parseInt(stock.userStocks.amountInvested)
-            console.log(this.state.vestedMoney)
             return(
                 <li key={stock.id}><div className='ticker'>{stock.ticker}</div> Amount Purchased: {stock.userStocks.amountInvested}
                     <button class='delete' name={stock.id} id={stock.userStocks.stockId} onClick={this.deleteUserStock}>Delete</button>

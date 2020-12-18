@@ -34,11 +34,11 @@ class AllUsers extends Component{
                     </ol>
                 </div>
                 <div className='All'>
-                    <h1>LEADERBOARD</h1>
+                    <h1>STONKS VS STINKS</h1>
                     <ul className='Allusers'>
                         <li id='Head'>Rank</li>
                         <li id='Head'>User</li>
-                        <li id='Head'>Growth</li>
+                        <li id='Head'>Capital</li>
                         {allUsers}
                     </ul>
                 </div>
