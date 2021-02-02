@@ -58,13 +58,12 @@ ul{
 }
 .User ul{
     text-align:justify;
-    /* text-align: left; */
+    justify-content: space-evenly;
     margin-left: 45px;
-    /* text-align:center; */
-    word-spacing:3em; 
 }
 .User a .gowth{
-    margin-left: 30%;
+    position: absolute;
+    margin-left: 100px;
 }
 
 li{

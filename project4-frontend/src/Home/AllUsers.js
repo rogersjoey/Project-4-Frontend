@@ -15,7 +15,6 @@ class AllUsers extends Component{
                             <li className='gowth' key={users.id}>{users.growth}</li>
                         </Link>
                     </ul>
-
                 </div>
             )
         })

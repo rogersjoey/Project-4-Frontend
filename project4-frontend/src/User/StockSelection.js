@@ -10,6 +10,7 @@ class MyStocks extends Component{
     constructor(){
         super()
         this.state = {
+            updateStock:[],
             stockData:[],
             stocks: [],
             data:[],
@@ -38,16 +39,40 @@ class MyStocks extends Component{
         event.preventDefault()
         this.state.stockData = []
         const response = await axios(`https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=${event.target.ticker.value}&apikey=G9K3MRYMN03JODZJ`)
-        // console.log(1)
+        console.log(1)
         for( var key in response.data['Time Series (Daily)']){
             this.state.stockData.push(response.data['Time Series (Daily)'][key])
         }
         console.log(this.state.stockData[0]['4. close'])
-        //UPDATING STOCK CURRENT VALUE
-        await axios.post(`http://localhost:3000/api/stock/`,{
-            ticker:event.target.ticker.value,
+        //Checking to see if stock already exists
+        await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
+            ticker:response.data['Meta Data']['2. Symbol'],
             currentValue:this.state.stockData[0]['4. close'],
+            amountInvested:event.target.amount.value
         })
+        // console.log('joey')
+        // let axiosResponse = await axios(`http://localhost:3000/api/stock/1`,{
+        //     ticker:event.target.ticker.value,
+        // })
+        // console.log(axiosResponse)
+        // if (axiosResponse === null){
+        //     //CREATING NEW STOCK IN DATABASE            
+        //     await axios.post(`http://localhost:3000/api/stock/1`,{
+        //         ticker:event.target.ticker.value,
+        //         currentValue:this.state.stockData[0]['4. close'],
+        //     })
+        //     console.log('Stock was CREATED')
+
+        // } else {
+        //     //UPDATING STOCK CURRENT VALUE
+        //     await axios.put(`http://localhost:3000/api/stock/`,{
+        //         ticker:event.target.ticker.value,
+        //         currentValue:this.state.stockData[0]['4. close'],
+        //     })
+        //     console.log('Stock was UPDATED')
+        // }
+
+
         //PUTTING IN USER STOCK VALUE
         // console.log(2)
         await axios.post(`${backendUrl}/userstock/profile/${this.props.match.params.id}`,{
